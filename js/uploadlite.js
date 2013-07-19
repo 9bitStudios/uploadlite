@@ -113,7 +113,6 @@ var UploadLite = window.UploadLite = (function(document){
 	    xhr.addEventListener("error", uploadFailed, false);
 	    xhr.addEventListener("abort", uploadCanceled, false);
 	    xhr.open("POST", postLocation);
-	    xhr.setRequestHeader("Content-Type", "application/octet-stream");
 	    xhr.setRequestHeader("X_FILENAME", uploadFileInput.files[0].name);
 	    xhr.send(fd);
 	}
