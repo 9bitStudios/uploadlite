@@ -1,25 +1,3 @@
-<?php 
-
-if(isset($_FILES['fileToUpload']))
-    $fileUploaded = $_FILES['fileToUpload'];
-
-$fileUploadLocation = "uploads/";
-
-if(isset($fileUploaded)) {	
-	
-    if(!empty($fileUploaded)) {
-	if(move_uploaded_file($fileUploaded['tmp_name'], $fileUploadLocation.$fileUploaded['name'])) {
-	    echo 'File uploaded successfully';
-	}
-	else
-	    echo 'Something went wrong';
-    }
-    else {
-	echo 'Please choose a file';
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +8,7 @@ if(isset($fileUploaded)) {
 	
 <h2>Upload Lite</h2>
 <p>An ultra lightweight AJAX Upload Utility...</p>
-<form id="form1" enctype="multipart/form-data" method="post" action="index.php">
+<form id="form1" enctype="multipart/form-data" method="post" action="post.php">
     <label for="fileToUpload">Select a File to Upload</label><br />
     <input id="fileToUpload" type="file" name="fileToUpload" />
     <input id="uploadButton" type="button" class="button-primary" value="Upload" />        

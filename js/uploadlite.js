@@ -73,15 +73,20 @@ var UploadLite = window.UploadLite = (function(document){
 
     var uploadFile = function() {
 	
-	var fd = new FormData();
-	fd.append("uid", uploadFileInput.files[0]);
-	var xhr = new XMLHttpRequest();
-	xhr.upload.addEventListener("progress", uploadProgress, false);
-	xhr.addEventListener("load", uploadComplete, false);
-	xhr.addEventListener("error", uploadFailed, false);
-	xhr.addEventListener("abort", uploadCanceled, false);
-	xhr.open("POST", postLocation);
-	xhr.send(fd);
+	if(uploadFileInput.files[0]) {
+	    var fd = new FormData();
+	    fd.append("uid", uploadFileInput.files[0]);
+	    var xhr = new XMLHttpRequest();
+	    xhr.upload.addEventListener("progress", uploadProgress, false);
+	    xhr.addEventListener("load", uploadComplete, false);
+	    xhr.addEventListener("error", uploadFailed, false);
+	    xhr.addEventListener("abort", uploadCanceled, false);
+	    xhr.open("POST", postLocation);
+	    xhr.send(fd);
+	}
+	else {
+	    alert('Please choose a file');
+	}
     };
 
     var uploadProgress = function(evt) {
