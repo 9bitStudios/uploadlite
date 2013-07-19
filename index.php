@@ -10,7 +10,7 @@
 <p>An ultra lightweight AJAX Upload Utility...</p>
 <form id="form1" enctype="multipart/form-data" method="post" action="post.php">
     <label for="fileToUpload">Select a File to Upload</label><br />
-    <input id="fileToUpload" type="file" name="fileToUpload" />
+    <input id="fileToUpload" type="file" />
     <input id="uploadButton" type="button" class="button-primary" value="Upload" />        
 </form>
 	

@@ -10,21 +10,52 @@ var UploadLite = window.UploadLite = (function(document){
 	VERSION: '0.0.1'
     };         
     
+    /**** Private Variables ****/
+    
     var uploadForm;
     var uploadFileInput;
+    var uploadName;
     var uploadButton;
     var postLocation;
+    var supported = false;
+    
+    /**** Init ****/
     
     var init = function(obj) {
 	
+	// is this (ugh) lte IE9 (I think Safari doesn't have this either)?  
+	if(window.FormData === undefined){
+	    // just going to post the file. no cool upload effects or file info 
+	    // boooo!
+	    supported = false;
+	} 
+	else {
+	    // hooray
+	    supported = true;
+	}	
+	
 	uploadForm = document.getElementById(obj['form']);
+	
+	// Set the name property for the input field same as id. will be used by server (e.g. $_FILES['uploadName'])
+	uploadName = obj['input'];
 	uploadFileInput = document.getElementById(obj['input']);
+	uploadFileInput.setAttribute("name", uploadName);
+	
 	uploadButton = document.getElementById(obj['button']);
 	postLocation = uploadForm.getAttribute("action");
-	uploadFileInput.setAttribute("onchange", "UploadLite.fileStatus()");
-	uploadButton.setAttribute("onclick", "UploadLite.upload()");
-	createElements();
+	
+	if(supported) {
+	    uploadFileInput.setAttribute("onchange", "UploadLite.fileStatus()");
+	    uploadButton.setAttribute("onclick", "UploadLite.upload()");
+	}
+	else 
+	    uploadButton.setAttribute("onclick", "submit()");
+	
+	// we are suppored so we can have the cool file info
+	if(supported)
+	    createElements();
     }; 
+    
     
     var createElements = function(){
 	
@@ -75,7 +106,7 @@ var UploadLite = window.UploadLite = (function(document){
 	
 	if(uploadFileInput.files[0]) {
 	    var fd = new FormData();
-	    fd.append("uid", uploadFileInput.files[0]);
+	    fd.append(uploadName, uploadFileInput.files[0]);
 	    var xhr = new XMLHttpRequest();
 	    xhr.upload.addEventListener("progress", uploadProgress, false);
 	    xhr.addEventListener("load", uploadComplete, false);
