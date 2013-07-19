@@ -33,12 +33,12 @@ if(isset($fileUploaded)) {
 <form id="form1" enctype="multipart/form-data" method="post" action="upload.php">
     <label for="fileToUpload">Select a File to Upload</label><br />
     <input type="file" name="fileToUpload" id="fileToUpload" onchange="UploadLite.fileStatus();"/>
-    <div id="fileName"></div>
-    <div id="fileSize"></div>
-    <div id="fileType"></div>
-    <input type="button" class="button-primary" onclick="UploadLite.upload()" value="Upload" />
-    <div id="progressNumber"></div>
+    <input type="button" class="button-primary" onclick="UploadLite.upload();" value="Upload" />        
 </form>
 	
+<script type="text/javascript">
+UploadLite.init('fileToUpload');
+</script>
+
 </body>
 </html>	

@@ -10,11 +10,45 @@ var UploadLite = window.UploadLite = (function(document){
 	VERSION: '0.0.1'
     };         
     
-    var init = function() {
+    var fileInput;
+    
+    var init = function(id) {
 	
+	fileInput = document.getElementById(id);
+	createElements();
     }; 
     
+    var createElements = function(){
+	
+	var name = document.createElement("div");
+	name.setAttribute("id", "fileName");
+	var size = document.createElement("div");
+	size.setAttribute("id", "fileSize");
+	var type = document.createElement("div");
+	type.setAttribute("id", "fileType");	
+	var progress = document.createElement("div");
+	progress.setAttribute("id", "progressNumber");	
+	
+	insertAfter(progress,fileInput);
+	insertAfter(type,fileInput);
+	insertAfter(size,fileInput);
+	insertAfter(name,fileInput);
+	
+    };
+    
+    var insertAfter = function(newElement, targetElement) {
+
+	var parent = targetElement.parentNode;
+	if(parent.lastchild == targetElement) {
+	    parent.appendChild(newElement);
+	} 
+	else {
+	    parent.insertBefore(newElement, targetElement.nextSibling);
+	}
+    };
+    
     var fileSelected = function() {
+	
 	var file = document.getElementById('fileToUpload').files[0];
 	if (file) {
 	  var fileSize = 0;
@@ -30,6 +64,7 @@ var UploadLite = window.UploadLite = (function(document){
     };
 
     var uploadFile = function() {
+	
 	var fd = new FormData();
 	fd.append("fileToUpload", document.getElementById('fileToUpload').files[0]);
 	var xhr = new XMLHttpRequest();
