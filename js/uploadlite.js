@@ -10,11 +10,19 @@ var UploadLite = window.UploadLite = (function(document){
 	VERSION: '0.0.1'
     };         
     
-    var fileInput;
+    var uploadForm;
+    var uploadFileInput;
+    var uploadButton;
+    var postLocation;
     
-    var init = function(id) {
+    var init = function(obj) {
 	
-	fileInput = document.getElementById(id);
+	uploadForm = document.getElementById(obj['form']);
+	uploadFileInput = document.getElementById(obj['input']);
+	uploadButton = document.getElementById(obj['button']);
+	postLocation = uploadForm.getAttribute("action");
+	uploadFileInput.setAttribute("onchange", "UploadLite.fileStatus()");
+	uploadButton.setAttribute("onclick", "UploadLite.upload()");
 	createElements();
     }; 
     
@@ -29,10 +37,10 @@ var UploadLite = window.UploadLite = (function(document){
 	var progress = document.createElement("div");
 	progress.setAttribute("id", "progressNumber");	
 	
-	insertAfter(progress,fileInput);
-	insertAfter(type,fileInput);
-	insertAfter(size,fileInput);
-	insertAfter(name,fileInput);
+	insertAfter(progress,uploadFileInput);
+	insertAfter(type,uploadFileInput);
+	insertAfter(size,uploadFileInput);
+	insertAfter(name,uploadFileInput);
 	
     };
     
@@ -49,7 +57,7 @@ var UploadLite = window.UploadLite = (function(document){
     
     var fileSelected = function() {
 	
-	var file = document.getElementById('fileToUpload').files[0];
+	var file = uploadFileInput.files[0];
 	if (file) {
 	  var fileSize = 0;
 	  if (file.size > 1024 * 1024)
@@ -66,13 +74,13 @@ var UploadLite = window.UploadLite = (function(document){
     var uploadFile = function() {
 	
 	var fd = new FormData();
-	fd.append("fileToUpload", document.getElementById('fileToUpload').files[0]);
+	fd.append("uid", uploadFileInput.files[0]);
 	var xhr = new XMLHttpRequest();
 	xhr.upload.addEventListener("progress", uploadProgress, false);
 	xhr.addEventListener("load", uploadComplete, false);
 	xhr.addEventListener("error", uploadFailed, false);
 	xhr.addEventListener("abort", uploadCanceled, false);
-	xhr.open("POST", "index.php");
+	xhr.open("POST", postLocation);
 	xhr.send(fd);
     };
 
